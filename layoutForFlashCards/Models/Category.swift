@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+struct Category {
+    
+    var name: String
+    var uID: String
+    
+    init(name: String, uID: String) {
+        self.name = name
+        self.uID = uID
+    }
+    
+}

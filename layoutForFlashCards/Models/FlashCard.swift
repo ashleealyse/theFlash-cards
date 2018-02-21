@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+struct Card {
+    
+    var question: String
+    var answer: String
+    var category: String
+    var uID: String
+    
+    init(question: String, answer: String, category: String, uID: String) {
+        self.question = question
+        self.answer = answer
+        self.category = category
+        self.uID = uID
+    }
+}

@@ -10,26 +10,36 @@ import UIKit
 
 class QuestionCardVC: UIViewController {
 
+    //Variables
+    var questionCardView = QuestionCardView()
+    
+    //View Did Load 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addSubview(questionCardView)
+        questionCardView.dismissButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        questionCardView.addCardButton.addTarget(self, action: #selector(addCard), for: .touchUpInside)
+        questionCardView.seeAnswerButton.addTarget(self, action: #selector(seeAnswer), for: .touchUpInside)
+        questionCardView.nextQuestionButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @objc private func dismissView() {
+        dismiss(animated: true, completion: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @objc private func addCard() {
+        let newCard = CreateCardVC()
+        present(newCard, animated: true, completion: nil)
     }
-    */
+    
+    @objc private func seeAnswer() {
+        questionCardView.answerLabel.textColor = .white
+    }
+    
+    @objc private func nextQuestion() {
+        questionCardView.answerLabel.textColor = .black
+        //set new question
+    }
 
 }
