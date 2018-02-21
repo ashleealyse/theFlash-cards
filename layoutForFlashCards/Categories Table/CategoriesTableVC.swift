@@ -7,13 +7,26 @@
 //
 
 import UIKit
+//Step 1: (for custom delegation)
+//create custom protocol in obj fo opt.
+
+//Step 2: Create events (things you want to signal)
+
+//Step 3: Create delegate variable
+
+//Step 4: Find places you want to call the alert (sending signal)
+@objc protocol CategoriesTableVCDelegate: class {
+    
+    @objc optional func didSegue(category: String)
+    
+}
 
 class CategoriesTableVC: UIViewController {
 
     
     //Variables
     var categoriesTableView = CategoriesTableView()
-    
+    public weak var delegate: CategoriesTableVCDelegate?
     var categories = [Category]() {
         didSet {
         categoriesTableView.tableView.reloadData()
@@ -63,14 +76,15 @@ class CategoriesTableVC: UIViewController {
 extension CategoriesTableVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected Row \(indexPath.row)")
+//        print("Selected Row \(indexPath.row)")
         let cell = tableView.cellForRow(at: indexPath)
-        let flashCards = QuestionCardVC()
+        let thisCategory = categories[indexPath.row]
+        let flashCards = QuestionCardVC(category: thisCategory.name)
         flashCards.modalTransitionStyle = .crossDissolve
         flashCards.modalPresentationStyle = .overCurrentContext
-        navigationController?.present(flashCards, animated: true, completion: nil)
-        
-        present(flashCards, animated: true, completion: nil)
+        present(flashCards, animated: true) {
+
+        }
     }
     
 }

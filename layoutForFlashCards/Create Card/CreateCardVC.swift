@@ -10,12 +10,24 @@ import UIKit
 
 class CreateCardVC: UIViewController {
 
+    var categoryName = ""
+    
+    init(category: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.categoryName = category
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //Variables 
     var createCardView = CreateCardView()
     
     //View Did Load 
     override func viewDidLoad() {
         super.viewDidLoad()
+        DBService.manager.delegate = self
         view.addSubview(createCardView)
         view.backgroundColor = .black
         createCardView.cancelButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
@@ -27,9 +39,20 @@ class CreateCardVC: UIViewController {
     }
     
     @objc private func submitCard() {
-        //TODO: save question, answer, and category its already in
+        //TODO: check for nil 
+        DBService.manager.addCard(question: createCardView.questionTF.text!, answer: createCardView.answerTF.text!, category: categoryName)
         print("card submit button pressed")
         dismiss(animated: true, completion: nil)
     }
 
+}
+
+extension CreateCardVC: DBServiceDelegate {
+    func didAddCard() {
+        print("Card Added")
+    }
+    
+    func didFailToAddCard() {
+        print("No card added")
+    }
 }

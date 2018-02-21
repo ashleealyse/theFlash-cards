@@ -33,7 +33,6 @@ class QuestionCardView: UIView {
     
     lazy var questionLabel: UILabel = {
        let label = UILabel()
-        label.text = "Question"
         label.textColor = .black
         return label
     }()
@@ -55,7 +54,6 @@ class QuestionCardView: UIView {
     
     lazy var answerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Answer"
         return label
     }()
     

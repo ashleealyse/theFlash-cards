@@ -14,7 +14,7 @@ import FirebaseDatabase
 extension DBService{
     
     
-    func addCard(question: String, answer: String, category: String, correct: Bool){
+    func addCard(question: String, answer: String, category: String){
         for card in cards{
             if card.question == question{
                 self.delegate?.didFailToAddCard!()
@@ -47,8 +47,7 @@ extension DBService{
                 guard let question = cardObject["question"] as? String,
                     let answer = cardObject["answer"] as? String,
                     let uID = cardObject["uID"] as? String,
-                    let category = cardObject["category"] as? String,
-                    let correct = cardObject["correct"] as? Bool
+                    let category = cardObject["category"] as? String
                     else { print("error getting posts");return}
                 
                 let thisCard = Card(question: question, answer: answer, category: category, uID: uID)
