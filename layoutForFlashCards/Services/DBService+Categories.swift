@@ -53,15 +53,17 @@ extension DBService {
                 categories.append(thisCategory)
                 
             }
+            let userId = AuthUserService.getCurrentUser()?.uid
+            categories = categories.filter{ $0.uID == userId }
             DBService.manager.categories = categories
             completion(categories)
         }
     }
     
     
-    func getCurrentUserCategories() -> [Category] {
-        guard let userId = AuthUserService.getCurrentUser()?.uid else {print("cant get current users categories"); return []}
-        return categories.filter{ $0.uID ==  userId}
-    }
+//    func getCurrentUserCategories() -> [Category] {
+//        guard let userId = AuthUserService.getCurrentUser()?.uid else {print("cant get current users categories"); return []}
+//        return categories.filter{ $0.uID ==  userId}
+//    }
     
 }

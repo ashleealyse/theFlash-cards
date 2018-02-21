@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginVC: UIViewController, AuthUserServiceDelegate {
+class LoginVC: UIViewController {
     
     //Variables
     var loginView = LoginView()
@@ -25,9 +25,9 @@ class LoginVC: UIViewController, AuthUserServiceDelegate {
         loginView.logInButton.addTarget(self, action: #selector(logIn), for: .touchUpInside)
         loginView.newAccountButton.addTarget(self, action: #selector(newAccount), for: .touchUpInside)
     }
-
+    
     @objc private func showPassword() {
-       print(securePassCounter = securePassCounter + 1)
+        print(securePassCounter = securePassCounter + 1)
         
         if securePassCounter % 2 == 1 {
             loginView.showPassowrdButton.setImage(#imageLiteral(resourceName: "lock"), for: .normal)
@@ -43,41 +43,43 @@ class LoginVC: UIViewController, AuthUserServiceDelegate {
         //Check if fields are empty
         if loginView.usernameTextField.text == "" || loginView.passwordTextField.text == "" {
             let alert = UIAlertController(title: "One Or More Fields Left Blank ", message: "Complete All Fields", preferredStyle: .alert)
-
+            
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             }))
             self.present(alert, animated: true, completion: nil)
         } else  {
-            print("trying to sign in")
-                    AuthUserService.manager.signIn(withEmail: loginView.usernameTextField.text!, password: loginView.passwordTextField.text!)
+            AuthUserService.manager.signIn(withEmail: loginView.usernameTextField.text!, password: loginView.passwordTextField.text!)
+            print("pressing login")
         }
-//        //TODO: Check if email exists in userbase
-//        //If email doesn't exist in userbase, present alert
-//        else if loginView.usernameTextField.text != "userNameInUserBase" {
-//        let alert = UIAlertController(title: "Username Doesn't Exist ", message: "Try Again || Create Account...", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//        }))
-//        self.present(alert, animated: true, completion: nil)
-//        }
-//        //TODO: Check if password matches that email
-//        //If password doesnt match that email, present alert
-//            else if loginView.passwordTextField.text != "matchUsernamePass" {
-//            loginView.passwordTextField.textColor = .red
-//        let alert = UIAlertController(title: "Password Doesn't Match Username ", message: "Try Again...", preferredStyle: .alert)
-//
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//            self.loginView.passwordTextField.textColor = .black
-//        }))
-//        self.present(alert, animated: true, completion: nil)
-//
-//            } else {
-//                //TODO: Sign user in
-//            }
+        
     }
     
     @objc private func newAccount() {
+        dismiss(animated: true, completion: nil)
         present(newAccountVC, animated: false, completion: nil)
-    }
 
+    }
+    
 }
 
+
+extension LoginVC: AuthUserServiceDelegate {
+    
+    func didFailSigningIn(_ userService: AuthUserService, error: Error) {
+        print("failed signing in ")
+    }
+    
+    func didSignIn(_ userService: AuthUserService, user: AppUser) {
+        print("User logged in")
+        
+        let tbc = UITabBarController()
+        let cat = CategoriesTableVC()
+        cat.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "cards"), tag: 0)
+        let prf = ProfileVC()
+        prf.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "user"), tag: 1)
+        tbc.viewControllers = [cat, prf]
+        
+        present(tbc, animated: true, completion: nil)
+    }
+    
+}

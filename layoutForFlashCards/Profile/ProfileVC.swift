@@ -17,6 +17,7 @@ class ProfileVC: UIViewController {
     //View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        AuthUserService.manager.delegate = self 
         view.addSubview(profileView)
 //        view.addSubview(checkView)
         profileView.signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
@@ -24,7 +25,15 @@ class ProfileVC: UIViewController {
 
     @objc private func signOut() {
         //TODO: sign user out and return to sign in page
-        present(loginVC, animated: true, completion: nil)
+        AuthUserService.manager.signOut()
+        print("You're pressing the sign out button")
     }
 
+}
+
+extension ProfileVC: AuthUserServiceDelegate {
+    func didSignOut(_ userService: AuthUserService) {
+        print("User Signed Out")
+    present(loginVC, animated: true, completion: nil)
+    }
 }

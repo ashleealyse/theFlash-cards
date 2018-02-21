@@ -23,24 +23,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         if let currentUser = AuthUserService.getCurrentUser() {
-            window = UIWindow(frame: UIScreen.main.bounds)
-            let root = LoginVC()
-            window?.rootViewController = root
-            window?.makeKeyAndVisible()
-            
-        } else {
-            
+    
             window = UIWindow(frame: UIScreen.main.bounds)
             let tbc = UITabBarController()
             let cat = CategoriesTableVC()
             cat.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "cards"), tag: 0)
             let prf = ProfileVC()
-            //        let navCon = UINavigationController(rootViewController: cat)
             prf.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "user"), tag: 1)
             tbc.viewControllers = [cat, prf]
-            //        let cards = QuestionCardVC()
-            //        navCon.pushViewController(cards, animated: true)
             window?.rootViewController = tbc
+            window?.makeKeyAndVisible()
+            
+        } else {
+
+            window = UIWindow(frame: UIScreen.main.bounds)
+            let root = LoginVC()
+            window?.rootViewController = root
             window?.makeKeyAndVisible()
         }
         return true
