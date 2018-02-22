@@ -41,8 +41,9 @@ class QuestionCardVC: UIViewController {
             } else {
                 self.questionCardView.seeAnswerButton.isHidden = false
                 self.questionCardView.nextQuestionButton.isHidden = false
-                self.questionCardView.questionLabel.text = self.flashCards[0].question
-                self.questionCardView.answerLabel.text = self.flashCards[0].answer
+                var randomNum = Int(arc4random_uniform(UInt32(self.flashCards.count)))
+                self.questionCardView.questionLabel.text = self.flashCards[randomNum].question
+                self.questionCardView.answerLabel.text = self.flashCards[randomNum].answer
             }
         }
         view.addSubview(questionCardView)
@@ -73,7 +74,9 @@ class QuestionCardVC: UIViewController {
     
     @objc private func nextQuestion() {
         questionCardView.answerLabel.textColor = .black
-        //set new question
+        var randomNum = Int(arc4random_uniform(UInt32(flashCards.count)))
+        self.questionCardView.questionLabel.text = self.flashCards[randomNum].question
+        self.questionCardView.answerLabel.text = self.flashCards[randomNum].answer
     }
 
 }

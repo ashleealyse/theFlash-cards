@@ -39,10 +39,17 @@ class CreateCardVC: UIViewController {
     }
     
     @objc private func submitCard() {
-        //TODO: check for nil 
+        if createCardView.answerTF.text != "" && createCardView.questionTF.text != "" {
         DBService.manager.addCard(question: createCardView.questionTF.text!, answer: createCardView.answerTF.text!, category: categoryName)
         print("card submit button pressed")
         dismiss(animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "One Or More Fields Left Blank ", message: "Complete All Fields", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
 }

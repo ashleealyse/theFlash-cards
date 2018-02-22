@@ -49,7 +49,6 @@ class LoginVC: UIViewController {
             self.present(alert, animated: true, completion: nil)
         } else  {
             AuthUserService.manager.signIn(withEmail: loginView.usernameTextField.text!, password: loginView.passwordTextField.text!)
-            print("pressing login")
         }
         
     }
@@ -66,12 +65,16 @@ class LoginVC: UIViewController {
 extension LoginVC: AuthUserServiceDelegate {
     
     func didFailSigningIn(_ userService: AuthUserService, error: Error) {
-        print("failed signing in ")
+        print(error.localizedDescription)
+        let alert = UIAlertController(title: "Could Not Login", message: "Try Connecting To Wifi", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func didSignIn(_ userService: AuthUserService, user: AppUser) {
-        print("User logged in")
-        
+    
         let tbc = UITabBarController()
         let cat = CategoriesTableVC()
         cat.tabBarItem = UITabBarItem(title: "", image: #imageLiteral(resourceName: "cards"), tag: 0)

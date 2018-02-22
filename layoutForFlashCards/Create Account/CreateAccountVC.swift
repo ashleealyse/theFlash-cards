@@ -27,9 +27,6 @@ class CreateAccountVC: UIViewController {
     }
     
     @objc private func createAccount() {
-        //TODO: Create account
-        //TODO: set user to user and view will change
-        
         //Check if any field is empty
         if createAccountView.emailTextField.text == "" || createAccountView.usernameTextField.text == "" || createAccountView.passwordCheckTextField.text == "" || createAccountView.passwordTextField.text == "" {
             let alert = UIAlertController(title: "One Or More Fields Left Empty ", message: "Try Again...", preferredStyle: .alert)
@@ -76,11 +73,19 @@ class CreateAccountVC: UIViewController {
 extension CreateAccountVC: AuthUserServiceDelegate {
     
     func didCreateUser(_ userService: AuthUserService, user: AppUser) {
-        print("User Created")
+        let alert = UIAlertController(title: "Account Created", message: "", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Get Started", style: .default, handler: { [weak alert] (_) in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func didFailCreatingUser(_ userService: AuthUserService, error: Error) {
-        print("Did not create user")
+        let alert = UIAlertController(title: "Account Could Not Be Created ", message: "Try connecting to Wifi", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        }))
+        self.present(alert, animated: true, completion: nil)
         print(error.localizedDescription)
     }
     

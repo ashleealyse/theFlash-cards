@@ -61,7 +61,6 @@ class CategoriesTableVC: UIViewController {
         // 3. Grab the value from the text field, and print it when the user clicks Add.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
-                            print("Text field: \(textField?.text)")
             DBService.manager.addCategory(name: (textField?.text)!)
             //TODO: check for nil
     
@@ -76,8 +75,6 @@ class CategoriesTableVC: UIViewController {
 extension CategoriesTableVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("Selected Row \(indexPath.row)")
-        let cell = tableView.cellForRow(at: indexPath)
         let thisCategory = categories[indexPath.row]
         let flashCards = QuestionCardVC(category: thisCategory.name)
         flashCards.modalTransitionStyle = .crossDissolve
@@ -109,11 +106,19 @@ extension CategoriesTableVC: UITableViewDataSource {
 extension CategoriesTableVC: DBServiceDelegate {
     
     func didAddCategory() {
-        print("yay you added a category")
+        let alert = UIAlertController(title: "Category Added ", message: "", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { [weak alert] (_) in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func didFailToAddCategory() {
-        print("you failed at adding a category")
+        let alert = UIAlertController(title: "Category Was Not Added ", message: "", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
